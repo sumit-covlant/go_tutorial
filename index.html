@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Programming Language Learning Guide</title>
+    <link rel="icon" type="image/png" href="/covlant_icon.png" sizes="32x32" />
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 4rem;
+        }
+        .sidebar {
+            height: calc(100vh - 4rem);
+            position: sticky;
+            top: 4rem;
+            width: 25%;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            z-index: 30;
+        }
+        .sidebar-content {
+            padding: 1rem;
+        }
+        .content {
+            width: 75%;
+            padding: 2rem;
+        }
+        pre {
+            background: #181818 !important;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            padding: 1rem !important;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+        }
+        .prose pre {
+            background: #2a2a2a !important;
+            color: #fff;
+            padding: 1rem !important;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .prose code {
+            background: #676666;
+            color: #faf8f8;
+            font-weight: bold;
+            padding: 0.2em 0.4em;
+            border-radius: 0.3em;
+        }
+        .prose pre code {
+            background: none;
+            padding: 0;
+        }
+        .prose h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #5a55f5;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5em;
+        }
+        .prose h2 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 1.5em;
+            margin-bottom: 0.75em;
+        }
+        .prose h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 1.25em;
+            margin-bottom: 0.5em;
+        }
+        .prose h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5em;
+            margin: 1em 0;
+        }
+        .prose li {
+            margin: 0.5em 0;
+        }
+        .prose p {
+            margin: 1em 0;
+            line-height: 1.6;
+        }
+        .section {
+            scroll-margin-top: 2rem;
+            position: relative;
+        }
+        .section:focus {
+            outline: none;
+        }
+        .active-section {
+            border-left: 2px solid #cac8c9;
+            border-radius: 0.5rem;
+            padding-left: 0.5rem;
+            background-color: #f8f9ff;
+        }
+        .mobile-menu-button {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu-button {
+                display: block;
+            }
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                width: 100%;
+                background: white;
+                z-index: 40;
+                padding: 1rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                overflow-y: auto;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .content {
+                width: 100%;
+                padding: 1rem;
+            }
+            .prose h1 {
+                font-size: 1.875rem;
+            }
+            .prose h2 {
+                font-size: 1.5rem;
+            }
+            .prose h3 {
+                font-size: 1.25rem;
+            }
+            .prose h4 {
+                font-size: 1.125rem;
+            }
+            pre {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800">Go Programming Language Learning Guide</h1>
+                </div>
+                <button class="mobile-menu-button p-2 rounded-md text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-8">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <h2 class="text-lg font-semibold mb-4">Go Learning Path</h2>
+                <ul class="space-y-2">
+                    <li><a href="#" data-section="guide" class="nav-link text-blue-600 hover:text-blue-800">0. Go Learning Guide</a></li>
+                    <li><a href="#" data-section="intro" class="nav-link text-blue-600 hover:text-blue-800">1. Introduction to Go</a></li>
+                    <li><a href="#" data-section="syntax" class="nav-link text-blue-600 hover:text-blue-800">2. Basic Syntax</a></li>
+                    <li><a href="#" data-section="types" class="nav-link text-blue-600 hover:text-blue-800">3. Data Types & Variables</a></li>
+                    <li><a href="#" data-section="control" class="nav-link text-blue-600 hover:text-blue-800">4. Control Structures</a></li>
+                    <li><a href="#" data-section="funcs" class="nav-link text-blue-600 hover:text-blue-800">5. Functions</a></li>
+                    <li><a href="#" data-section="ptr" class="nav-link text-blue-600 hover:text-blue-800">6. Pointers</a></li>
+                    <li><a href="#" data-section="struct" class="nav-link text-blue-600 hover:text-blue-800">7. Structs and Methods</a></li>
+                    <li><a href="#" data-section="arrays" class="nav-link text-blue-600 hover:text-blue-800">8. Arrays, Slices, and Maps</a></li>
+                    <li><a href="#" data-section="pkg" class="nav-link text-blue-600 hover:text-blue-800">9. Packages & Modules</a></li>
+                    <li><a href="#" data-section="iface" class="nav-link text-blue-600 hover:text-blue-800">10. Interfaces</a></li>
+                    <li><a href="#" data-section="err" class="nav-link text-blue-600 hover:text-blue-800">11. Error Handling</a></li>
+                    <li><a href="#" data-section="concur" class="nav-link text-blue-600 hover:text-blue-800">12. Concurrency</a></li>
+                    <li><a href="#" data-section="file" class="nav-link text-blue-600 hover:text-blue-800">13. File Handling & IO</a></li>
+                    <li><a href="#" data-section="test" class="nav-link text-blue-600 hover:text-blue-800">14. Testing</a></li>
+                    <li><a href="#" data-section="lib" class="nav-link text-blue-600 hover:text-blue-800">15. Standard Library Deep Dive</a></li>
+                    <li><a href="#" data-section="web" class="nav-link text-blue-600 hover:text-blue-800">16. Web Development with Go</a></li>
+                    <li><a href="#" data-section="db" class="nav-link text-blue-600 hover:text-blue-800">17. Database Interaction</a></li>
+                    <li><a href="#" data-section="tools" class="nav-link text-blue-600 hover:text-blue-800">18. Go Tooling</a></li>
+                    <li><a href="#" data-section="deploy" class="nav-link text-blue-600 hover:text-blue-800">19. Deployment and Production</a></li>
+                    <li><a href="#" data-section="patterns" class="nav-link text-blue-600 hover:text-blue-800">20. Common Design Patterns</a></li>
+                    <li><a href="#" data-section="gen" class="nav-link text-blue-600 hover:text-blue-800">21. Generics (Go 1.18+)</a></li>
+                    <li><a href="#" data-section="deep" class="nav-link text-blue-600 hover:text-blue-800">22. Optional Deep Dives</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div id="go-section-guide" class="mb-12 section" data-section="guide">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-intro" class="mb-12 section" data-section="intro">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-syntax" class="mb-12 section" data-section="syntax">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-types" class="mb-12 section" data-section="types">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-control" class="mb-12 section" data-section="control">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-funcs" class="mb-12 section" data-section="funcs">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-ptr" class="mb-12 section" data-section="ptr">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-struct" class="mb-12 section" data-section="struct">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-arrays" class="mb-12 section" data-section="arrays">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-pkg" class="mb-12 section" data-section="pkg">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-iface" class="mb-12 section" data-section="iface">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-err" class="mb-12 section" data-section="err">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-concur" class="mb-12 section" data-section="concur">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-file" class="mb-12 section" data-section="file">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-test" class="mb-12 section" data-section="test">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-lib" class="mb-12 section" data-section="lib">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-web" class="mb-12 section" data-section="web">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-db" class="mb-12 section" data-section="db">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-tools" class="mb-12 section" data-section="tools">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-deploy" class="mb-12 section" data-section="deploy">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-patterns" class="mb-12 section" data-section="patterns">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-gen" class="mb-12 section" data-section="gen">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <div id="go-section-deep" class="mb-12 section" data-section="deep">
+                <div class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    <script>
+        // Configure marked options
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return code;
+            },
+            langPrefix: 'language-',
+            breaks: true,
+            gfm: true
+        });
+
+        // Section mapping
+        const sectionMapping = {
+            'guide': 'go_tutorial/0_go_learning_guide',
+            'intro': 'go_tutorial/1_introduction_to_go',
+            'syntax': 'go_tutorial/2_basic_syntax',
+            'types': 'go_tutorial/3_data_types_variables',
+            'control': 'go_tutorial/4_control_structures',
+            'funcs': 'go_tutorial/5_functions',
+            'ptr': 'go_tutorial/6_pointers',
+            'struct': 'go_tutorial/7_structs_and_methods',
+            'arrays': 'go_tutorial/8_arrays_slices_maps',
+            'pkg': 'go_tutorial/9_packages_modules',
+            'iface': 'go_tutorial/10_interfaces',
+            'err': 'go_tutorial/11_error_handling',
+            'concur': 'go_tutorial/12_concurrency',
+            'file': 'go_tutorial/13_file_handling_io',
+            'test': 'go_tutorial/14_testing',
+            'lib': 'go_tutorial/15_standard_library_deep_dive',
+            'web': 'go_tutorial/16_web_development_with_go',
+            'db': 'go_tutorial/17_database_interaction',
+            'tools': 'go_tutorial/18_go_tooling',
+            'deploy': 'go_tutorial/19_deployment',
+            'patterns': 'go_tutorial/20_common_design_patterns',
+            'gen': 'go_tutorial/21_generics',
+            'deep': 'go_tutorial/22_optional_deep_dives'
+        };
+
+        // Function to load markdown content
+        async function loadContent() {
+            for (const [sectionId, filePath] of Object.entries(sectionMapping)) {
+                await loadSection(sectionId, filePath);
+            }
+        }
+
+        // Function to load a single section
+        async function loadSection(sectionId, filePath) {
+            try {
+                console.log(`Loading section: ${sectionId} from file: ${filePath}.md`);
+                const response = await fetch(`${filePath}.md`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const text = await response.text();
+                const html = marked.parse(text);
+                const element = document.querySelector(`#go-section-${sectionId} .prose`);
+                
+                if (element) {
+                    element.innerHTML = html;
+                    Prism.highlightAll();
+                    console.log(`Successfully loaded: ${sectionId}`);
+                } else {
+                    console.error(`Element not found for section: ${sectionId}`);
+                }
+            } catch (error) {
+                console.error(`Error loading ${filePath}:`, error);
+                const element = document.querySelector(`#go-section-${sectionId} .prose`);
+                if (element) {
+                    element.innerHTML = 
+                        `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            <strong>Error loading content:</strong> ${filePath}.md not found<br>
+                            <small>Error: ${error.message}</small>
+                        </div>`;
+                }
+            }
+        }
+
+        // Function to handle navigation clicks
+        function handleNavigationClick(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const sectionId = event.target.getAttribute('data-section');
+            const targetId = `go-section-${sectionId}`;
+            
+            console.log(`Navigating to section: ${sectionId} with target ID: ${targetId}`);
+            
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                // Remove any existing active states
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active-section');
+                });
+                
+                // Add active state to target section
+                targetElement.classList.add('active-section');
+                
+                // Calculate scroll position
+                const headerHeight = 64;
+                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                
+                // Scroll to position
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                console.log(`Successfully navigated to: ${sectionId}`);
+            } else {
+                console.error(`Target element not found: ${targetId}`);
+            }
+            
+            // Close mobile menu if on mobile
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+            }
+            
+            return false;
+        }
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const sidebar = document.querySelector('.sidebar');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Add navigation click handlers
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', handleNavigationClick);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(e.target) && 
+                !mobileMenuButton.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Load content when page loads
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+</html> 
