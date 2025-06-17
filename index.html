@@ -114,6 +114,14 @@
             padding-left: 0.5rem;
             background-color: #f8f9ff;
         }
+        .nav-link.active {
+            color: #1f2937 !important;
+            font-weight: 600;
+            background-color: #e5e7eb;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            margin: -0.5rem;
+        }
         .mobile-menu-button {
             display: none;
         }
@@ -450,8 +458,16 @@
                     section.classList.remove('active-section');
                 });
                 
+                // Remove active states from navigation links
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
                 // Add active state to target section
                 targetElement.classList.add('active-section');
+                
+                // Add active state to navigation link
+                event.target.classList.add('active');
                 
                 // Calculate scroll position
                 const headerHeight = 64;
@@ -476,6 +492,48 @@
             return false;
         }
 
+        // Function to update active navigation based on scroll position
+        function updateActiveNavigation() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const headerHeight = 64;
+            const scrollPosition = window.scrollY + headerHeight + 100;
+            
+            let activeSection = null;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                    activeSection = section;
+                }
+            });
+            
+            // Remove active states from all navigation links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Add active state to corresponding navigation link
+            if (activeSection) {
+                const sectionId = activeSection.getAttribute('data-section');
+                const activeLink = document.querySelector(`[data-section="${sectionId}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        }
+
+        // Throttled scroll handler for better performance
+        let scrollTimeout;
+        function throttledScrollHandler() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(updateActiveNavigation, 50);
+        }
+
         // Mobile menu toggle
         const mobileMenuButton = document.querySelector('.mobile-menu-button');
         const sidebar = document.querySelector('.sidebar');
@@ -489,6 +547,9 @@
             link.addEventListener('click', handleNavigationClick);
         });
 
+        // Add scroll event listener to update active navigation
+        window.addEventListener('scroll', throttledScrollHandler);
+
         // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 768 && 
@@ -500,6 +561,14 @@
 
         // Load content when page loads
         document.addEventListener('DOMContentLoaded', loadContent);
+
+        // Initialize active navigation after content loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial active state after a short delay to ensure content is loaded
+            setTimeout(() => {
+                updateActiveNavigation();
+            }, 1000);
+        });
     </script>
 </body>
 </html> 
