@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    image: go-learning-guide:v1
+    container_name: go-learning-guide-web
+    ports:
+      - "3004:3000"
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped 
