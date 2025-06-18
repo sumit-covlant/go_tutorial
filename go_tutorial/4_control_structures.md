@@ -3,7 +3,7 @@
 ## Overview
 
 Go has a minimal set of control structures compared to other languages. The main control structures are:
-- `if` and `else` statements
+- `if` and `if else` statements with `else` statements
 - `switch` statements
 - `for` loops (no `while` or `do-while` in Go)
 - `break` and `continue` statements
